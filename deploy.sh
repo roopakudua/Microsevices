@@ -1,4 +1,6 @@
 #!/bin/sh
+echo enter file name
+read file_name
 echo docker Image loaction along with tag
 read image_add
 echo Enter conatiner name
@@ -15,7 +17,7 @@ echo Enter Service API version
 read ser_api_ver
 echo Container port No of dockerised image
 read portno
-cat >> employee-data.yaml << EOF
+cat >> $file_name.yaml << EOF
 apiVersion: $ser_api_ver
 kind: Service
 metadata:
@@ -48,3 +50,6 @@ spec:
         ports:
         - containerPort: $portno
 EOF
+echo ###########################################################################################3
+echo applying the deployment
+kubectl apply -f <(istioctl kube-inject -f $file_name.yaml)
